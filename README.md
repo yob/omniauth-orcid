@@ -177,7 +177,20 @@ Different sets of params from `config.yml` are used for production environment (
 
 You can do something similar with in Rails with the same config file, or something . See a working example here: https://github.com/gthorisson/ORCID-example-client-app-rails
 
+### Authentication Only
 
+By default, this gem will request a token with permission to use the ORCID member API. If you only need to authenticate the user and verify their ORCID, you can configure omniauth-orcid to use the public ORCID API. The returned token has significantly reduced permissions, but it's free.
+
+To use the public authentication-only API, configure omniauth-orcid like so:
+
+```ruby
+require 'omniauth-orcid'
+
+use OmniAuth::Builder do
+  provider :orcid, ENV['ORCID_KEY'], ENV['ORCID_SECRET'], authorize_params: {scope: "/authenticate"}, client_options: {token_url: "https://pub.orcid.org/oauth/token"}
+end
+
+```
 
 ## More information 
 
